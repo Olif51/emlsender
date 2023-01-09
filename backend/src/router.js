@@ -10,4 +10,8 @@ router.put("/items/:id", itemControllers.edit);
 router.post("/items", itemControllers.add);
 router.delete("/items/:id", itemControllers.destroy);
 
+const mailControllers = require("./controllers/mailControllers");
+
+router.post("/contact", mailControllers.sendContactMail);
+
 module.exports = router;

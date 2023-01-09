@@ -31,10 +31,10 @@ On the backend folder, create a .env file if does not exist and add these inform
 ```
 APP_PORT=5005
 FRONTEND_URL=http://localhost:3000
-SMTP_SENDIN=(the SMTP server from sendinblue)
-SMTP_PORT_SENDIN=(the prot from sendinblue)
-SMTP_SENDIN_USER=(the id from sendinblue)
-SMTP_SENDIN_PASSWORD=(the key from sendinblue)
+SMTP_SENDIN=smtp-relay.sendinblue.com
+SMTP_PORT_SENDIN=587
+SMTP_SENDIN_USER=olivier.nou@gmail.com
+SMTP_SENDIN_PASSWORD=k2An5WsbP7XQUzc4
 ```
 
 ## Create the mail controller
@@ -65,7 +65,7 @@ Next, we need to create a transporter in which we will setting up our SMTP serve
 
 ```js
 const sendContactMail = (req, res) => {
-  const {name, surname, phone, email, message} = req.body;
+  const { name, surname, phone, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_SENDIN,
@@ -76,7 +76,7 @@ const sendContactMail = (req, res) => {
       pass: process.env.SMTP_SENDIN_PASSWORD,
     },
   });
-}
+};
 ```
 
 NB : the secure key must be setting up to false for 587 PORT, and true for 465 PORT. By default, sendinBlue give you a 587 PORT.
@@ -85,7 +85,7 @@ Now, we can set up the body of our mail :
 
 ```js
 const sendContactMail = (req, res) => {
-  const {name, surname, phone, email, message} = req.body;
+  const { name, surname, phone, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_SENDIN,
@@ -104,14 +104,14 @@ const sendContactMail = (req, res) => {
     text: `${message} \n\n Phone: ${phone} \n\n Name: ${name} \n\n Surname: ${surname} \n\n Email: ${email}`,
     html: `<p>${message}</p> <p>Phone: ${phone}</p> <p>Name: ${name}</p> <p>Surname: ${surname}</p> <p>Email: ${email}</p>`,
   };
-}
+};
 ```
 
 Finally, we use the `sendMail` method of the transporter:
 
 ```js
 const sendContactMail = (req, res) => {
-  const {name, surname, phone, email, message} = req.body;
+  const { name, surname, phone, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_SENDIN,
@@ -141,7 +141,7 @@ const sendContactMail = (req, res) => {
       console.warn(err);
       res.status(500).send("Something went wrong");
     });
-}
+};
 ```
 
 ## Add a route
@@ -179,4 +179,4 @@ You should receive a message on the email address that you put into the "to" key
 
 ## Special thanks
 
-* [**Guilhem SEYVET**](https://github.com/guilhemcv), who created the original version of this workshop.
+- [**Guilhem SEYVET**](https://github.com/guilhemcv), who created the original version of this workshop.
